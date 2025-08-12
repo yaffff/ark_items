@@ -1,0 +1,23 @@
+name: ark_items
+version: '1.0-SNAPSHOT'
+main: com.ysf.ark_items.Ark_items
+api-version: '1.21'
+authors: [ _Ysf , Bobby ]
+
+commands:
+  additem:
+    description: Add a new custom item
+    usage: /additem <itemName>
+  addattribute:
+    description: Add a new attribute to all items
+    usage: /addattribute <attrName> <type> <defaultValue>
+  setattribute:
+    description: Set an attribute value for an item
+    usage: /setattribute <itemName> <attrName> <value>
+  removeattribute:
+     description: Removes a custom attribute from all items
+     usage: /removeattribute <attributeName>
+
+  clearitems:
+    description: Clears all item and attribute data.
+    usage: /clearitems
