@@ -8,12 +8,15 @@ commands:
   additem:
     description: Add a new custom item
     usage: /additem <itemName>
+
   addattribute:
     description: Add a new attribute to all items
     usage: /addattribute <attrName> <type> <defaultValue>
+
   setattribute:
     description: Set an attribute value for an item
     usage: /setattribute <itemName> <attrName> <value>
+
   removeattribute:
      description: Removes a custom attribute from all items
      usage: /removeattribute <attributeName>
@@ -21,3 +24,7 @@ commands:
   clearitems:
     description: Clears all item and attribute data.
     usage: /clearitems
+
+  givejsonitem:
+    description: Give an item defined in items.json
+    usage: /givejsonitem <itemKey> [amount]

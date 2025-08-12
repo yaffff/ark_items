@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Ark_items extends JavaPlugin implements TabCompleter {
 
 
+
     private static Ark_items instance;
     private ItemManager itemManager;
 
@@ -22,6 +23,7 @@ public final class Ark_items extends JavaPlugin implements TabCompleter {
         getCommand("setattribute").setExecutor(new SetAttributeCommand(itemManager));
         getCommand("removeattribute").setExecutor(new RemoveAttributeCommand(itemManager));
         getCommand("clearitems").setExecutor(new ClearAllData(itemManager));
+        getCommand("givejsonitem").setExecutor(new GiveJsonItemCommand(itemManager));
 
         getLogger().info("CustomItems plugin enabled.");
 
@@ -29,6 +31,9 @@ public final class Ark_items extends JavaPlugin implements TabCompleter {
         getCommand("addattribute").setTabCompleter(tabHandler);
         getCommand("setattribute").setTabCompleter(tabHandler);
         getCommand("removeattribute").setTabCompleter(tabHandler);
+        getCommand("givejsonitem").setTabCompleter(new GiveJsonItemCommand(itemManager));
+
+        getServer().getPluginManager().registerEvents(new ImplementingAttributes(itemManager),this);
     }
 
     public ItemManager getItemManager() {
