@@ -62,8 +62,6 @@ public class GiveJsonItemCommand implements CommandExecutor, TabCompleter {
         // Modify ItemMeta
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            List<Component> lore = meta.lore();
-            if (lore == null) lore = new ArrayList<>();
 
             meta.displayName(Component.text(itemKey).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GOLD));
 
@@ -76,14 +74,14 @@ public class GiveJsonItemCommand implements CommandExecutor, TabCompleter {
 
             int damagelore = itemManager.getItemAttribute(itemKey,"meleeDamage", Integer.class);
             if (damagelore > 0) {
-                lore.add(Component.text(ChatColor.RED+ "Damage: " + damagelore));
             }
 
 
             int weight = itemManager.getItemAttribute(itemKey,"Weight", Integer.class);
-            lore.add(Component.text(ChatColor.BLUE +"Weight: "+ weight));
 
-            meta.lore(lore);
+
+
+            meta.lore(itemManager.buildItemLore(itemKey));
             item.setItemMeta(meta);
         }
 

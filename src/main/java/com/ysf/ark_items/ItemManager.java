@@ -3,13 +3,22 @@ package com.ysf.ark_items;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ItemManager {
@@ -147,6 +156,57 @@ public class ItemManager {
             default: return false;
         }
     }
+
+    public ItemStack getCustomItem(String itemKey) {
+        if (!data.items.containsKey(itemKey)) return null;
+
+        // Get Material
+        String matName = getItemAttribute(itemKey, "EverythingIsAStick", String.class);
+        Material mat = matName != null ? Material.matchMaterial(matName) : null;
+        if (mat == null) return null;
+
+        ItemStack item = new ItemStack(mat);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            // Name
+            meta.displayName(Component.text(itemKey)
+                    .decoration(TextDecoration.ITALIC, false)
+                    .color(NamedTextColor.GOLD));
+
+            // Model
+            String modelName = getItemAttribute(itemKey, "setItemModel", String.class);
+            if (modelName != null && !modelName.isEmpty()) {
+                meta.setItemModel(new NamespacedKey("minecraft", modelName.toLowerCase()));
+            }
+
+            meta.lore(buildItemLore(itemKey));
+            item.setItemMeta(meta);
+        }
+        return item;
+    }
+
+    public List<Component> buildItemLore(String itemKey) {
+        List<Component> lore = new ArrayList<>();
+
+        Integer damage = getItemAttribute(itemKey, "meleeDamage", Integer.class);
+        if (damage != null && damage > 0) {
+            lore.add(Component.text(ChatColor.RED + "Damage: " + damage));
+        }
+
+        Integer weight = getItemAttribute(itemKey, "Weight", Integer.class);
+        if (weight != null) {
+            lore.add(Component.text(ChatColor.BLUE + "Weight: " + weight));
+        }
+
+        // Add more attributes here — only need to do it once
+        Boolean placeable = getItemAttribute(itemKey, "isPlaceable", Boolean.class);
+        if (placeable != null && placeable) {
+            lore.add(Component.text(ChatColor.GREEN + "Placeable"));
+        }
+
+        return lore;
+    }
+
 
 
 
