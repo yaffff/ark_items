@@ -207,8 +207,12 @@ public class ItemManager {
         return lore;
     }
 
-
-
+    public List<String> getAllItemKeys() {
+        if (data != null && data.items != null) {
+            return new ArrayList<>(data.items.keySet());
+        }
+        return new ArrayList<>();
+    }
 
 
     public Data getData() {
